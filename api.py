@@ -50,21 +50,29 @@ for gameID in gameList:
     allItems = allItemsGet.content; # get page content
     
     allItems = json.loads(allItems); # convert to JSON
-    totalItems = allItems['total_count']; # get total count
-    
+    try:
+        totalItems = allItems['total_count']; # get total count
+    except:
+        print('Error: '+str(allItems))
     
     # you can only get 100 items at a time (despite putting in count= >100)
     # so we have to loop through in batches of 100 to get every single item name by specifying the start position
-    for currPos in range(0,totalItems+50,50): # loop through all items
-        time.sleep(random.uniform(0.5, 2.5)) # you cant make requests too quickly or steam gets mad
-        
+    try:
+        for currPos in range(0,totalItems+50,50): # loop through all items
+            time.sleep(random.uniform(0.5, 2.5)) # you cant make requests too quickly or steam gets mad
+    except:
+        print('Error: '+str(allItems))
+
     # get item name of each
         allItemsGet = requests.get('https://steamcommunity.com/market/search/render/?start='+str(currPos)+'&count=100&search_descriptions=0&sort_column=default&sort_dir=desc&appid='+gameID+'&norender=1&count=5000', cookies=cookie);
         print('Items '+str(currPos)+' out of '+str(totalItems)+' code: '+str(allItemsGet.status_code)) # reassure us the code is running and we are getting good returns (code 200)
         
-        allItems = allItemsGet.content;
-        allItems = json.loads(allItems);
-        allItems = allItems['results'];
+        allItems = allItemsGet.content
+        allItems = json.loads(allItems)
+        try:
+            allItems = allItems['results']
+        except:
+            print('Error: '+str(allItems))
         for currItem in allItems: 
             allItemNames.append(currItem['hash_name']) # save the names
             

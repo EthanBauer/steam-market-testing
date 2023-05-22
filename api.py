@@ -176,6 +176,11 @@ for gameID in gameList:
                 currentItemDict = {'itemName':currItem,'initial':itemPriceInitial,'timeOnMarket':timeOnMarket,'priceIncrease':priceIncrease,'priceAvg':itemPriceAvg,'priceSD':itemPriceSD,'maxPrice':maxPrice,'maxIdx':maxIdx,'minPrice':minPrice,'minIdx':minIdx,'swing':swing,'volAvg':itemVolAvg,'volSD':itemVolSD,'slope':fitR[0],'rr':RR}
                 currItemPD = pd.DataFrame(currentItemDict,index=[0]);
                 allItemsPD= allItemsPD.append(currItemPD,ignore_index=True);
+                print(currentItemDict)
+                print(currItemPD)
+                print(allItemsPD)
+                currItemPD.to_csv(gameID+'PriceData.csv',mode='a',header=False)
+                allItemsPD.to_csv(gameID+'PriceDataAll.csv',mode='a',header=False)
                 
                 
                 time.sleep(random.uniform(0.5, 2.5))
